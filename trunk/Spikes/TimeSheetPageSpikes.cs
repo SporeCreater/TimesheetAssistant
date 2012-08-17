@@ -15,12 +15,13 @@ namespace Spikes
     /// manual clean up to be done in the application in order to allow other tests to be run,
     /// or to run the tests again.
     /// 
+    [Ignore]
     [TestClass]
     public class TimeSheetPageSpikes
     {
         // **** CHANGE THIS VALUES BEFORE RUNNING THE TESTS ***
         private const string USER_NAME = "fcuenca";
-        private const string PASSWORD = "55Xochi99@3";  // Don't check-in your password!! :-)
+        private const string PASSWORD = "PASSWORD";  // Don't check-in your password!! :-)
         private const string CURRENT_WEEK_END = "8/18/2012";
         // ****************************************************
 
