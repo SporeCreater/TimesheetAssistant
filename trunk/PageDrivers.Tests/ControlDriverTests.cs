@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WatiN.Core;
 
@@ -43,7 +44,7 @@ namespace PageDrivers.Tests
         public void control_drivers_have_id()
         {
             var ctrl = new TestControlDriver("foo", _ie.Element("foo"), new TestDriverPage());
-            Assert.AreEqual("foo", ctrl.Id);
+            ctrl.Id.Should().Be("foo");
         }
 
         [TestMethod]
@@ -53,7 +54,7 @@ namespace PageDrivers.Tests
                            {
                                VerificationResult = TestControlDriver.VerificationBehaviour.CallSuperClass
                            };
-            Assert.IsTrue(ctrl.Verify());
+            ctrl.Verify().Should().BeTrue();
         }
 
         [TestMethod]
@@ -63,7 +64,7 @@ namespace PageDrivers.Tests
                            {
                                VerificationResult = TestControlDriver.VerificationBehaviour.CallSuperClass
                            };
-            Assert.IsFalse(ctrl.Verify());
+            ctrl.Verify().Should().BeFalse();
         }
 
         [TestMethod]
@@ -73,7 +74,7 @@ namespace PageDrivers.Tests
 
             var ctrl = new TestControlDriver("foo", _ie.Element(Find.ById("foo")), parent);
 
-            CollectionAssert.Contains(parent.RegisteredControls, ctrl);
+            parent.RegisteredControls.Should().Contain(ctrl);
         }
 
         [TestMethod]
@@ -87,9 +88,9 @@ namespace PageDrivers.Tests
 
             parent.Verify();
 
-            Assert.IsTrue(c1.WasVerified);
-            Assert.IsTrue(c2.WasVerified);
-            Assert.IsTrue(c3.WasVerified);
+            c1.WasVerified.Should().BeTrue();
+            c2.WasVerified.Should().BeTrue();
+            c3.WasVerified.Should().BeTrue();
         }
 
         [TestMethod]
@@ -106,8 +107,8 @@ namespace PageDrivers.Tests
                          {
                              VerificationResult = TestControlDriver.VerificationBehaviour.Fail
                          };
-
-            Assert.AreEqual("foo baz ", parent.Verify());
+            
+            parent.Verify().Should().Be("foo baz ");
         }
     }
 }

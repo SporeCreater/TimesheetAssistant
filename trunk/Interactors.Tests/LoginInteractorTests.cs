@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -40,8 +41,8 @@ namespace Interactors.Tests
 
             LoginResponse response = _interactor.Login(request);
 
-            Assert.IsTrue(response.WasSuccessful);
-            Assert.AreEqual(string.Empty, response.ErrorMessage);
+            response.WasSuccessful.Should().BeTrue();
+            response.ErrorMessage.Should().BeEmpty();
         }
 
         [TestMethod]
@@ -51,8 +52,8 @@ namespace Interactors.Tests
 
             LoginResponse response = _interactor.Login(request);
 
-            Assert.IsFalse(response.WasSuccessful);
-            Assert.AreEqual("error message", response.ErrorMessage);
+            response.WasSuccessful.Should().BeFalse();
+            response.ErrorMessage.Should().Be("error message");
         }
 
         [TestMethod]
@@ -71,7 +72,7 @@ namespace Interactors.Tests
 
             LoginResponse response = _interactor.Login(request);
 
-            Assert.AreEqual(actualSelectedDate, response.CurrentWeek);
+            response.CurrentWeek.Should().Be(actualSelectedDate);
         }
 
         private IClock get_clock_fixed_on_date(DateTime today)

@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Interactors.Tests
@@ -11,7 +12,7 @@ namespace Interactors.Tests
         {
             var today = new DateTime(2012, 8, 21);
 
-            Assert.AreEqual(new DateTime(2012, 8, 25), today.CalculateNextSaturday());
+            today.CalculateNextSaturday().Should().Be(new DateTime(2012, 8, 25));
         }
 
         [TestMethod]
@@ -19,7 +20,7 @@ namespace Interactors.Tests
         {
             var today = new DateTime(2012, 8, 12);
 
-            Assert.AreEqual(new DateTime(2012, 8, 18), today.CalculateNextSaturday());
+            today.CalculateNextSaturday().Should().Be(new DateTime(2012, 8, 18));
         }
 
         [TestMethod]
@@ -27,7 +28,7 @@ namespace Interactors.Tests
         {
             var today = new DateTime(2012, 8, 25);
 
-            Assert.AreEqual(today, today.CalculateNextSaturday());
+            today.CalculateNextSaturday().Should().Be(today);
         }
 
         [TestMethod]
@@ -35,7 +36,7 @@ namespace Interactors.Tests
         {
             var today = new DateTime(2012, 8, 29);
 
-            Assert.AreEqual(new DateTime(2012, 9, 1), today.CalculateNextSaturday());
+            today.CalculateNextSaturday().Should().Be(new DateTime(2012, 9, 1));
         }
 
     }
