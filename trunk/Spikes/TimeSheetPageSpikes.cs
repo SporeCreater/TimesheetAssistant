@@ -15,7 +15,7 @@ namespace Spikes
     /// manual clean up to be done in the application in order to allow other tests to be run,
     /// or to run the tests again.
     /// 
-    //[Ignore]
+    [Ignore]
     [TestClass]
     public class TimeSheetPageSpikes
     {
