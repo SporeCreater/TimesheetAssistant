@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace PageDrivers.Tests
 {
@@ -14,8 +15,7 @@ namespace PageDrivers.Tests
             p.PwdField.TypeText(Config.PASSWORD);
             p.LoginButton.Click();
 
-            Assert.AreEqual("https://timeandexpense.teksystems.com/webtime/TimeCardHome.aspx", _ie.Url);
+            _ie.Url.Should().ContainEquivalentOf(LoginPageDriver.NextPageName);
         }
-
     }
 }

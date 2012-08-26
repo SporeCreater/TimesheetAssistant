@@ -47,6 +47,13 @@
     <Compile Include="LoginPageDriver.cs" />
     <Compile Include="PageDriver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimeSheetAppDriver.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Interactors\Interactors.csproj">
+      <Project>{D967F450-09B7-4B95-AB29-E498C1A1CBF2}</Project>
+      <Name>Interactors</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

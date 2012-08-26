@@ -33,11 +33,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentAssertions">
+      <HintPath>..\..\..\Tools\FluentAssertions\net40\FluentAssertions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WatiN.Core">
       <HintPath>..\..\..\Tools\WatiN\bin\net40\WatiN.Core.dll</HintPath>
     </Reference>
@@ -48,6 +53,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppDriverTests.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="LoginPageDriverTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -55,10 +61,17 @@
     <Compile Include="WatinDriverTestSuite.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Interactors\Interactors.csproj">
+      <Project>{D967F450-09B7-4B95-AB29-E498C1A1CBF2}</Project>
+      <Name>Interactors</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PageDrivers\PageDrivers.csproj">
       <Project>{96B95206-69C7-4782-875B-22AED8424BA6}</Project>
       <Name>PageDrivers</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

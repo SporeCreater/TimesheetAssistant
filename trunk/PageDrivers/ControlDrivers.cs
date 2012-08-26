@@ -44,4 +44,16 @@ namespace PageDrivers
             ((TextField)_element).TypeText(text);
         }
     }
+
+    public class WatinSpan: WatinControlDriver
+    {
+        public WatinSpan(IE ie, PageDriver parent, string id): base(id, ie.Span(Find.ById(id)), parent)
+        {
+        }
+
+        public string Text()
+        {
+            return ((Span) _element).Text;
+        }
+    }
 }

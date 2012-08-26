@@ -58,6 +58,15 @@ namespace Spikes
             Assert.IsFalse(x.Exists);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(WatiN.Core.Exceptions.ElementNotFoundException))]
+        public void timeout_with_exception()
+        {
+            _browser.Navigate("/");
+            _ie.TextField(Find.ById("txtUserName")).TypeText(USER_NAME);
+        }
+
+
 
         [TestMethod]
         public void submit_timesheet_with_one_entry()

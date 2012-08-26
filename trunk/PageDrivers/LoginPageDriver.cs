@@ -4,6 +4,8 @@ namespace PageDrivers
 {
     public class LoginPageDriver: PageDriver
     {
+        public const string NextPageName = "TimeCardHome.aspx";
+
         public WatinTextField UserNameField { get; private set; }
         public WatinTextField PwdField { get; private set; }
         public WatinButton LoginButton { get; private set; }

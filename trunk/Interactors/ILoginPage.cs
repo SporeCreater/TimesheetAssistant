@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Interactors
+﻿namespace Interactors
 {
     public interface ILoginPage
     {
