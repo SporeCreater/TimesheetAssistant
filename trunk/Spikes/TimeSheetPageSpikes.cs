@@ -15,7 +15,7 @@ namespace Spikes
     /// manual clean up to be done in the application in order to allow other tests to be run,
     /// or to run the tests again.
     /// 
-    [Ignore]
+    //[Ignore]
     [TestClass]
     public class TimeSheetPageSpikes
     {
@@ -42,6 +42,22 @@ namespace Spikes
             _ie.Dispose();
             _ie = null;
         }
+
+        [TestMethod]
+        public void check_element_exists()
+        {
+            _browser.Navigate("/");
+
+            var x = _ie.TextField(Find.ById("txtUserName"));
+
+            Assert.IsNotNull(x);
+            Assert.IsTrue(x.Exists);
+
+            x = _ie.TextField(Find.ById("foo"));
+            Assert.IsNotNull(x);
+            Assert.IsFalse(x.Exists);
+        }
+
 
         [TestMethod]
         public void submit_timesheet_with_one_entry()
