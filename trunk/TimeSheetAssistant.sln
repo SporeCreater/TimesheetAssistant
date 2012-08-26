@@ -16,6 +16,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interactors", "Interactors\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interactors.Tests", "Interactors.Tests\Interactors.Tests.csproj", "{CC223F88-ADC2-4A7F-8E51-4AFDCDCD09AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageDrivers", "PageDrivers\PageDrivers.csproj", "{96B95206-69C7-4782-875B-22AED8424BA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageDrivers.Tests", "PageDrivers.Tests\PageDrivers.Tests.csproj", "{2D4A834A-D2FC-4076-8F85-7CBF935E0780}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -73,6 +77,26 @@ Global
 		{CC223F88-ADC2-4A7F-8E51-4AFDCDCD09AD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{CC223F88-ADC2-4A7F-8E51-4AFDCDCD09AD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{CC223F88-ADC2-4A7F-8E51-4AFDCDCD09AD}.Release|x86.ActiveCfg = Release|Any CPU
+		{96B95206-69C7-4782-875B-22AED8424BA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96B95206-69C7-4782-875B-22AED8424BA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96B95206-69C7-4782-875B-22AED8424BA6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{96B95206-69C7-4782-875B-22AED8424BA6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{96B95206-69C7-4782-875B-22AED8424BA6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{96B95206-69C7-4782-875B-22AED8424BA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96B95206-69C7-4782-875B-22AED8424BA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96B95206-69C7-4782-875B-22AED8424BA6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{96B95206-69C7-4782-875B-22AED8424BA6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{96B95206-69C7-4782-875B-22AED8424BA6}.Release|x86.ActiveCfg = Release|Any CPU
+		{2D4A834A-D2FC-4076-8F85-7CBF935E0780}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D4A834A-D2FC-4076-8F85-7CBF935E0780}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D4A834A-D2FC-4076-8F85-7CBF935E0780}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2D4A834A-D2FC-4076-8F85-7CBF935E0780}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2D4A834A-D2FC-4076-8F85-7CBF935E0780}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2D4A834A-D2FC-4076-8F85-7CBF935E0780}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D4A834A-D2FC-4076-8F85-7CBF935E0780}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D4A834A-D2FC-4076-8F85-7CBF935E0780}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2D4A834A-D2FC-4076-8F85-7CBF935E0780}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2D4A834A-D2FC-4076-8F85-7CBF935E0780}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
