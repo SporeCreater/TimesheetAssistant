@@ -55,7 +55,7 @@
   <ItemGroup>
     <Compile Include="AppDriverTests.cs" />
     <Compile Include="Config.cs" />
-    <Compile Include="LoginPageDriverTests.cs" />
+    <Compile Include="PageDriverTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ControlDriverTests.cs" />
     <Compile Include="WatinDriverTestSuite.cs" />

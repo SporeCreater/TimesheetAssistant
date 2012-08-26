@@ -45,5 +45,30 @@ namespace PageDrivers.Tests
             }
         }
 
+        [TestMethod]
+        public void selects_existing_value_in_the_weekend_list()
+        {
+            using (var p = new TimeSheetAppDriver(Config.APP_URL))
+            {
+                p.Login(Config.USER_NAME, Config.PASSWORD);
+
+                p.SelectCurrentWeek("9/15/2012");
+
+                p.CurrentWeek.Should().Be("9/15/2012");
+            }
+        }
+
+        [TestMethod]
+        public void selects_non_existent_value_in_weekend_list()
+        {
+            using (var p = new TimeSheetAppDriver(Config.APP_URL))
+            {
+                p.Login(Config.USER_NAME, Config.PASSWORD);
+
+                p.SelectCurrentWeek("9/99/9999");
+
+                p.CurrentWeek.Should().Be(p.WeekEndings[p.WeekEndings.Count - 1]); 
+            }
+        }
     }
 }

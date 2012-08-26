@@ -1,4 +1,6 @@
-﻿using WatiN.Core;
+﻿using System;
+using System.Collections.Specialized;
+using WatiN.Core;
 
 namespace PageDrivers
 {
@@ -54,6 +56,33 @@ namespace PageDrivers
         public string Text()
         {
             return ((Span) _element).Text;
+        }
+    }
+
+    public class WatinSelectList: WatinControlDriver
+    {
+        public WatinSelectList(IE ie, PageDriver parent, string id): base(id, ie.SelectList(Find.ById(id)), parent)
+        {
+        }
+
+        public string SelectedValue
+        {
+            get { return ((SelectList) _element).SelectedItem; }
+        }
+
+        public void SelectByValue(string value)
+        {
+            ((SelectList)_element).SelectByValue(value);
+        }
+
+        public void Select(string value)
+        {
+            ((SelectList)_element).Select(value);
+        }
+
+        public StringCollection AllContents()
+        {
+            return ((SelectList) _element).AllContents;
         }
     }
 }

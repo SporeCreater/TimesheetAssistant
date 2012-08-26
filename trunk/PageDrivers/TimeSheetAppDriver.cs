@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.Linq;
 using Interactors;
 using WatiN.Core;
 using WatiN.Core.Exceptions;
@@ -61,12 +63,67 @@ namespace PageDrivers
 
         public string CurrentWeek
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                LastErrorMessage = string.Empty;
+
+                try
+                {
+                    var p = new TimeCardPageDriver(_ie);
+
+                    return p.WeekEndingList.SelectedValue;
+                }
+                catch (ElementNotFoundException ex)
+                {
+                    LastErrorMessage = "Unexpected page content: " + ex.Message;
+                    return "";
+                }
+            }
         }
 
         public void SelectCurrentWeek(string nextSaturday)
         {
-            throw new NotImplementedException();
+            LastErrorMessage = string.Empty;
+
+            try
+            {
+                var p = new TimeCardPageDriver(_ie);
+
+                StringCollection allWeekends = p.WeekEndingList.AllContents();
+
+                if (allWeekends.Contains(nextSaturday))
+                {
+                    p.WeekEndingList.SelectByValue(nextSaturday);
+                }
+                else
+                {
+                    p.WeekEndingList.SelectByValue(allWeekends[allWeekends.Count - 1]);
+                }               
+            }
+            catch (ElementNotFoundException ex)
+            {
+                LastErrorMessage = "Unexpected page content: " + ex.Message;
+            }
+        }
+
+        public StringCollection WeekEndings
+        {
+            get
+            {
+                LastErrorMessage = string.Empty;
+
+                try
+                {
+                    var p = new TimeCardPageDriver(_ie);
+
+                    return p.WeekEndingList.AllContents();
+                }
+                catch (ElementNotFoundException ex)
+                {
+                    LastErrorMessage = "Unexpected page content: " + ex.Message;
+                    return new StringCollection();
+                }
+            }
         }
 
         public void Dispose()

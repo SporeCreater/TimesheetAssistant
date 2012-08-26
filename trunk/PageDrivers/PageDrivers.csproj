@@ -47,6 +47,7 @@
     <Compile Include="LoginPageDriver.cs" />
     <Compile Include="PageDriver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimeCardPageDriver.cs" />
     <Compile Include="TimeSheetAppDriver.cs" />
   </ItemGroup>
   <ItemGroup>
