@@ -17,16 +17,9 @@ namespace PageDrivers
             LastErrorMessage = string.Empty;
         }
 
-        public void Close()
-        {
-            _ie.Close();
-        }
-
         public bool Login(string userName, string password)
         {
-            LastErrorMessage = string.Empty;
-
-            try
+            return PerformProtectedOperation(false, () =>
             {
                 var p = new LoginPageDriver(_ie);
 
@@ -45,47 +38,30 @@ namespace PageDrivers
                 {
                     return true;
                 }
-                else
-                {
-                    LastErrorMessage = "Login failed";
-                    return false;
-                }
-
-            }
-            catch (ElementNotFoundException ex)
-            {
-                LastErrorMessage = "Unexpected page content: " + ex.Message;
+                
+                LastErrorMessage = "Login failed";
                 return false;
-            }
-        }
+            });       
+         }
 
         public string LastErrorMessage { get; private set; }
 
         public string CurrentWeek
         {
-            get
+            get 
             {
-                LastErrorMessage = string.Empty;
-
-                try
+                return PerformProtectedOperation("", () => 
                 {
                     var p = new TimeCardPageDriver(_ie);
 
                     return p.WeekEndingList.SelectedValue;
-                }
-                catch (ElementNotFoundException ex)
-                {
-                    LastErrorMessage = "Unexpected page content: " + ex.Message;
-                    return "";
-                }
+                });
             }
         }
 
         public void SelectCurrentWeek(string nextSaturday)
         {
-            LastErrorMessage = string.Empty;
-
-            try
+            PerformProtectedOperation(() =>
             {
                 var p = new TimeCardPageDriver(_ie);
 
@@ -99,37 +75,56 @@ namespace PageDrivers
                 {
                     p.WeekEndingList.SelectByValue(allWeekends[allWeekends.Count - 1]);
                 }               
-            }
-            catch (ElementNotFoundException ex)
-            {
-                LastErrorMessage = "Unexpected page content: " + ex.Message;
-            }
+
+            });
         }
 
         public StringCollection WeekEndings
         {
             get
             {
-                LastErrorMessage = string.Empty;
-
-                try
+                return PerformProtectedOperation(new StringCollection(), () =>
                 {
                     var p = new TimeCardPageDriver(_ie);
 
-                    return p.WeekEndingList.AllContents();
-                }
-                catch (ElementNotFoundException ex)
-                {
-                    LastErrorMessage = "Unexpected page content: " + ex.Message;
-                    return new StringCollection();
-                }
+                    return p.WeekEndingList.AllContents();                                                                          
+                });
             }
+        }
+
+        public void Close()
+        {
+            _ie.Close();
         }
 
         public void Dispose()
         {
             _ie.Close();
             _ie.Dispose();
+        }
+
+        private void PerformProtectedOperation(Action op)
+        {
+            PerformProtectedOperation("ignored", () =>
+            {
+                op();
+                return "ignored";
+            });
+        }
+
+        private T PerformProtectedOperation<T>(T errorReturnValue, Func<T> op)
+        {
+            LastErrorMessage = string.Empty;
+
+            try
+            {
+                return op();
+            }
+            catch (ElementNotFoundException ex)
+            {
+                LastErrorMessage = "Unexpected page content: " + ex.Message;
+                return errorReturnValue;
+            }
         }
     }
 }
