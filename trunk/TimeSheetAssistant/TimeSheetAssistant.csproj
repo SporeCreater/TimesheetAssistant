@@ -80,6 +80,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Boundaries\Boundaries.csproj">
+      <Project>{20367968-345A-47E8-8854-86A4F7777866}</Project>
+      <Name>Boundaries</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Interactors\Interactors.csproj">
       <Project>{D967F450-09B7-4B95-AB29-E498C1A1CBF2}</Project>
       <Name>Interactors</Name>

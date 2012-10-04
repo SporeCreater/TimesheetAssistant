@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
-using System.Linq;
-using Interactors;
+using Boundaries;
 using WatiN.Core;
 using WatiN.Core.Exceptions;
 

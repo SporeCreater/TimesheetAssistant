@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{96B95206-69C7-4782-875B-22AED8424BA6}</ProjectGuid>
+    <ProjectGuid>{20367968-345A-47E8-8854-86A4F7777866}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PageDrivers</RootNamespace>
-    <AssemblyName>PageDrivers</AssemblyName>
+    <RootNamespace>Boundaries</RootNamespace>
+    <AssemblyName>Boundaries</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -38,23 +38,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WatiN.Core">
-      <HintPath>..\..\..\Tools\WatiN\bin\net40\WatiN.Core.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControlDrivers.cs" />
-    <Compile Include="LoginPageDriver.cs" />
-    <Compile Include="PageDriver.cs" />
+    <Compile Include="ILoginPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TimeCardPageDriver.cs" />
-    <Compile Include="TimeSheetAppDriver.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Boundaries\Boundaries.csproj">
-      <Project>{20367968-345A-47E8-8854-86A4F7777866}</Project>
-      <Name>Boundaries</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

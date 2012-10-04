@@ -7,10 +7,6 @@ using Form = System.Windows.Forms.Form;
 
 namespace TimeSheetAssistant
 {
-    /// 
-    /// This spike app was built to determine if Watin would work with a WinForms app
-    /// and to prototype the basic functionality of the app.
-    /// 
     public partial class MainForm : Form
     {
         private TimeSheetAppDriver _appDriver;
@@ -29,7 +25,7 @@ namespace TimeSheetAssistant
         {
             var interactor = new LoginInteractor(_appDriver);
 
-            var request = new LoginRequest()
+            var request = new LoginRequest
                               {
                                   UserName = tbUserName.Text,
                                   Password = tbPassword.Text

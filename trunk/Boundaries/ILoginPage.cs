@@ -1,4 +1,4 @@
-﻿namespace Interactors
+﻿namespace Boundaries
 {
     public interface ILoginPage
     {

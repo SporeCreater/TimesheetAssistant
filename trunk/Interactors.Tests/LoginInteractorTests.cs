@@ -1,4 +1,5 @@
 ﻿using System;
+using Boundaries;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
