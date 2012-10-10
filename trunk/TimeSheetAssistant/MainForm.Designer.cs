@@ -1,4 +1,7 @@
-﻿namespace TimeSheetAssistant
+﻿using System;
+using Boundaries;
+
+namespace TimeSheetAssistant
 {
     partial class MainForm
     {
@@ -308,7 +311,7 @@
         private System.Windows.Forms.Button btnEnterHours;
         private System.Windows.Forms.ComboBox cbEarningsCode;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.CheckedListBox cbDayOfTheWeek;
+        private System.Windows.Forms.CheckedListBox cbDayOfTheWeek;       
     }
 }
 

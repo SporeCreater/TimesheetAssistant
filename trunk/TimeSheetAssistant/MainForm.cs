@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Boundaries;
 using Interactors;
 using PageDrivers;
 using Form = System.Windows.Forms.Form;
 
 namespace TimeSheetAssistant
 {
-    public partial class MainForm : Form
+    public partial class MainForm : Form, ILoginView
     {
         private TimeSheetAppDriver _appDriver;
         
@@ -23,7 +24,7 @@ namespace TimeSheetAssistant
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            var interactor = new LoginInteractor(_appDriver);
+            var interactor = new LoginInteractor(this, _appDriver);
 
             var request = new LoginRequest
                               {
@@ -31,20 +32,10 @@ namespace TimeSheetAssistant
                                   Password = tbPassword.Text
                               };
 
-            var response = interactor.Login(request);
-
-            if (response.WasSuccessful)
-            {
-                cbWeeks.DataSource = new List<string>() {response.CurrentWeek};
-            }
-            else
-            {
-                MessageBox.Show(response.ErrorMessage);
-            }
-
+             interactor.Login(request);
         }
 
-        private void MainForm_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             _appDriver.Close();
         }
@@ -59,5 +50,14 @@ namespace TimeSheetAssistant
 
         }
 
+        public void ShowErrorMessage(string errorMessage)
+        {
+            MessageBox.Show(errorMessage);
+        }
+
+        public void SetCurrentWeek(string currentDate)
+        {
+            cbWeeks.DataSource = new List<string> { currentDate };
+        }
     }
 }

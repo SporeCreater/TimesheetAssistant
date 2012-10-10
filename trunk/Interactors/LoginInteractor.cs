@@ -9,7 +9,7 @@ namespace Interactors
         public string Password { get; set; }
     }
 
-    public class LoginResponse
+    class LoginResponse
     {
         public LoginResponse()
         {
@@ -23,6 +23,7 @@ namespace Interactors
 
     public class LoginInteractor
     {
+        private readonly ILoginView _view;
         private readonly ILoginPage _page;
         private IClock _clock = new SystemClock();
 
@@ -38,12 +39,27 @@ namespace Interactors
             }
         }
 
-        public LoginInteractor(ILoginPage page)
+        public LoginInteractor(ILoginView view, ILoginPage page)
         {
+            _view = view;
             _page = page;
         }
 
-        public LoginResponse Login(LoginRequest request)
+        public void Login(LoginRequest request)
+        {
+            LoginResponse response = ExecuteLogin(request);
+
+            if (response.WasSuccessful)
+            {
+                _view.SetCurrentWeek(response.CurrentWeek);
+            }
+            else
+            {
+                _view.ShowErrorMessage(response.ErrorMessage);
+            }            
+        }
+
+        private LoginResponse ExecuteLogin(LoginRequest request)
         {
             if (_page.Login(request.UserName, request.Password))
             {

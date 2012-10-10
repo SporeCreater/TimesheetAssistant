@@ -10,57 +10,51 @@ namespace Interactors.Tests
     public class LoginInteractorTests
     {
         private Mock<ILoginPage> _page;
+        private Mock<ILoginView> _view;
         private LoginInteractor _interactor;
-
-        private string _userName;
-        private string _password;
-        private bool _expectedLoginResult;
-        private string _expectedErrorMessage;
 
         [TestInitialize]
         public void Setup()
         {
-            _userName = null;
-            _password = null;
-            _expectedLoginResult = false;
-            _expectedErrorMessage = null;
-
             _page = new Mock<ILoginPage>();
-            _interactor = new LoginInteractor(_page.Object);
+            _view = new Mock<ILoginView>();
+
+            _interactor = new LoginInteractor(_view.Object, _page.Object);
         }
 
         [TestCleanup]
         public void TearDown()
         {
             _page.Verify();
+            _view.Verify();
         }
         
         [TestMethod]
-        public void handles_login_into_timesheet_system()
+        public void interacts_with_webapp_to_handle_login()
         {
-            LoginRequest request = assume_login_credentials("user", "password").with_successful_login().get_request();
+            var request = new LoginRequest { UserName = "user", Password = "password" };
 
-            LoginResponse response = _interactor.Login(request);
+            _page.Setup(p => p.Login(request.UserName, request.Password)).Returns(true).Verifiable();
 
-            response.WasSuccessful.Should().BeTrue();
-            response.ErrorMessage.Should().BeEmpty();
+            _interactor.Login(request);
         }
 
         [TestMethod]
-        public void produces_error_message_on_login_failure()
+        public void when_login_fails_forwards_error_message_to_view()
         {
-            LoginRequest request = assume_login_credentials("user", "password").with_failed_login().with_error_message("error message").get_request();
+            _page.Setup(p => p.Login(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
+            _page.Setup(p => p.LastErrorMessage).Returns("error message");
 
-            LoginResponse response = _interactor.Login(request);
+            _view.Setup(v => v.ShowErrorMessage("error message")).Verifiable();
 
-            response.WasSuccessful.Should().BeFalse();
-            response.ErrorMessage.Should().Be("error message");
+            _interactor.Login(new LoginRequest());
         }
 
         [TestMethod]
-        public void on_login_selects_the_current_week()
+        public void when_login_succeeds_forwards_current_week_to_view()
         {
-            LoginRequest request = assume_login_credentials("user", "password").with_successful_login().get_request();
+            _page.Setup(p => p.Login(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+            _page.Setup(p => p.LastErrorMessage).Returns("");
 
             var today = new DateTime(2012, 1, 24);
             const string nextSaturday = "1/28/2012";
@@ -69,11 +63,11 @@ namespace Interactors.Tests
             _page.Setup(p => p.SelectCurrentWeek(nextSaturday)).Verifiable();
             _page.Setup(p => p.CurrentWeek).Returns(actualSelectedDate).Verifiable();
 
+            _view.Setup(v => v.SetCurrentWeek(actualSelectedDate)).Verifiable();
+
             _interactor.Clock = get_clock_fixed_on_date(today);
 
-            LoginResponse response = _interactor.Login(request);
-
-            response.CurrentWeek.Should().Be(actualSelectedDate);
+            _interactor.Login(new LoginRequest());
         }
 
         private IClock get_clock_fixed_on_date(DateTime today)
@@ -81,41 +75,6 @@ namespace Interactors.Tests
             var clock = new Mock<IClock>();
             clock.Setup(c => c.Now()).Returns(today);
             return clock.Object;
-        }
-
-        private LoginRequest get_request()
-        {
-            var request = new LoginRequest { UserName = _userName, Password = _password };
-
-            _page.Setup(p => p.Login(_userName, _password)).Returns(_expectedLoginResult).Verifiable();
-            _page.Setup(p => p.LastErrorMessage).Returns(_expectedErrorMessage);
-
-            return request;
-        }
-
-        private LoginInteractorTests assume_login_credentials(string userName, string password)
-        {
-            _userName = userName;
-            _password = password;
-            return this;
-        }
-
-        private LoginInteractorTests with_successful_login()
-        {
-            _expectedLoginResult = true;
-            return this;
-        }
-
-        private LoginInteractorTests with_failed_login()
-        {
-            _expectedLoginResult = false;
-            return this;
-        }
-
-        private LoginInteractorTests with_error_message(string errorMessage)
-        {
-            _expectedErrorMessage = errorMessage;
-            return this;
         }
     }
 }
