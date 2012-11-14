@@ -6,8 +6,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A5EDF02F-AD60-49A5-B61A-B68D5D33CB12}"
 	ProjectSection(SolutionItems) = preProject
 		Local.testsettings = Local.testsettings
+		Scratchpad.txt = Scratchpad.txt
 		TimeSheetAssistant.vsmdi = TimeSheetAssistant.vsmdi
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+		TSA.uxf = TSA.uxf
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UISpike", "UISpike\UISpike.csproj", "{C1F34E06-C580-45B2-9EB3-CC146424F5A4}"

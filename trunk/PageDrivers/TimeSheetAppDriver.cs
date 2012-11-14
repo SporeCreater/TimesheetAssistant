@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using Boundaries;
 using WatiN.Core;
 using WatiN.Core.Exceptions;
@@ -58,6 +60,86 @@ namespace PageDrivers
             }
         }
 
+        public List<string> WeekDays
+        {
+            get
+            {
+                return PerformProtectedOperation(new List<string>(), () =>
+                {
+                    var p = new TimeCardPageDriver(_ie);
+
+                    return p.WeekDateList.AllContents().Cast<string>().Where(s => !s.Contains("Select")).ToList();
+                });
+            }
+        }
+
+        public List<string> EarningCodes
+        {
+            get
+            {
+                return PerformProtectedOperation(new List<string>(), () =>
+                {
+                    var p = new TimeCardPageDriver(_ie);
+
+                    return p.EarningCodes.AllContents().Cast<string>().ToList();
+                });
+            }
+        }
+
+        public List<string> ContractLines
+        {
+            get
+            {
+                return PerformProtectedOperation(new List<string>(), () =>
+                {
+                    var p = new TimeCardPageDriver(_ie);
+
+                    return p.ContractLines.AllContents().Cast<string>().ToList();
+                });
+            }
+        }
+
+        public List<string> ContractNumbers
+        {
+            get
+            {
+                return PerformProtectedOperation(new List<string>(), () =>
+                {
+                    var p = new TimeCardPageDriver(_ie);
+
+                    return p.ContractNumbers.AllContents().Cast<string>().ToList();
+                });
+            }
+        }
+
+        public List<string> ActivityIDs
+        {
+            get
+            {
+                return PerformProtectedOperation(new List<string>(), () =>
+                {
+                    var p = new TimeCardPageDriver(_ie);
+
+                    return p.ActivityIDs.AllContents().Cast<string>().ToList();
+                });
+
+            }
+        }
+
+        public List<string> ProjectIDs
+        {
+            get
+            {
+                return PerformProtectedOperation(new List<string>(), () =>
+                {
+                    var p = new TimeCardPageDriver(_ie);
+
+                    return p.ProjectIDs.AllContents().Cast<string>().ToList();
+                });
+
+            }
+        }
+
         public void SelectCurrentWeek(string nextSaturday)
         {
             PerformProtectedOperation(() =>
@@ -66,15 +148,8 @@ namespace PageDrivers
 
                 StringCollection allWeekends = p.WeekEndingList.AllContents();
 
-                if (allWeekends.Contains(nextSaturday))
-                {
-                    p.WeekEndingList.SelectByValue(nextSaturday);
-                }
-                else
-                {
-                    p.WeekEndingList.SelectByValue(allWeekends[allWeekends.Count - 1]);
-                }               
-
+                p.WeekEndingList.SelectByValue(
+                    allWeekends.Contains(nextSaturday) ? nextSaturday : allWeekends[allWeekends.Count - 1]);
             });
         }
 

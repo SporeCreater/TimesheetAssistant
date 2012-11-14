@@ -1,0 +1,10 @@
+
+REFACTORINGS:
+------------
+
+* ILoginPage: needs new name. These are not "page" interfaces, but the boundary interface between the interactor and the "back end"
+* ILoginPage.Login: should take LoginRequest
+* LoginRequest/Response classes: move to separate file
+
+
+

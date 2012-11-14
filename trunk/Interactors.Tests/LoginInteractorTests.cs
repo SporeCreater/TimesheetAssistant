@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Boundaries;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -34,9 +35,9 @@ namespace Interactors.Tests
         {
             var request = new LoginRequest { UserName = "user", Password = "password" };
 
-            _page.Setup(p => p.Login(request.UserName, request.Password)).Returns(true).Verifiable();
-
             _interactor.Login(request);
+
+            _page.Verify(p => p.Login(request.UserName, request.Password));
         }
 
         [TestMethod]
@@ -45,29 +46,59 @@ namespace Interactors.Tests
             _page.Setup(p => p.Login(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
             _page.Setup(p => p.LastErrorMessage).Returns("error message");
 
-            _view.Setup(v => v.ShowErrorMessage("error message")).Verifiable();
-
             _interactor.Login(new LoginRequest());
+
+            _view.Verify(v => v.ShowErrorMessage("error message"));
         }
 
         [TestMethod]
         public void when_login_succeeds_forwards_current_week_to_view()
         {
-            _page.Setup(p => p.Login(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
-            _page.Setup(p => p.LastErrorMessage).Returns("");
-
             var today = new DateTime(2012, 1, 24);
             const string nextSaturday = "1/28/2012";
             const string actualSelectedDate = "1/21/2012";
 
-            _page.Setup(p => p.SelectCurrentWeek(nextSaturday)).Verifiable();
-            _page.Setup(p => p.CurrentWeek).Returns(actualSelectedDate).Verifiable();
+            LoginResponse expectedResponse = BuildSampleResponseWithDate(actualSelectedDate);
+            LoginResponse actualResponse = null;
 
-            _view.Setup(v => v.SetCurrentWeek(actualSelectedDate)).Verifiable();
-
+            SetupPageToRespondWith(expectedResponse);
+            _view.Setup(v => v.SetCurrentWeek(It.IsAny<LoginResponse>())).Callback((LoginResponse r) => actualResponse = r);       
             _interactor.Clock = get_clock_fixed_on_date(today);
 
             _interactor.Login(new LoginRequest());
+
+            _page.Verify(p => p.SelectCurrentWeek(nextSaturday));
+            _view.Verify(v => v.SetCurrentWeek(It.IsAny<LoginResponse>()));
+
+            actualResponse.ShouldBeEquivalentTo(expectedResponse);
+        }
+
+        private void SetupPageToRespondWith(LoginResponse expectedResponse)
+        {
+            _page.Setup(p => p.Login(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+            _page.Setup(p => p.LastErrorMessage).Returns("");
+            _page.Setup(p => p.CurrentWeek).Returns(expectedResponse.CurrentWeek);
+            _page.Setup(p => p.WeekDays).Returns(expectedResponse.WeekDays);
+            _page.Setup(p => p.EarningCodes).Returns(expectedResponse.EarningCodes);
+            _page.Setup(p => p.ContractLines).Returns(expectedResponse.ContractLines);
+            _page.Setup(p => p.ContractNumbers).Returns(expectedResponse.ContractNumbers);
+            _page.Setup(p => p.ActivityIDs).Returns(expectedResponse.ActivityIDs);
+            _page.Setup(p => p.ProjectIDs).Returns(expectedResponse.ProjectIDs);
+        }
+
+        private LoginResponse BuildSampleResponseWithDate(string actualSelectedDate)
+        {
+            return new LoginResponse
+                       {
+                           WasSuccessful = true,
+                           CurrentWeek = actualSelectedDate,
+                           WeekDays = new List<string> {"Sunday", "Monday", "Tuesday"},
+                           EarningCodes = new List<string> {"Billable", "Non Billable"},
+                           ContractLines = new List<string> {"1", "2", "3"},
+                           ContractNumbers = new List<string> {"CON0003932 Overhead"},
+                           ActivityIDs = new List<string> {"ADMIN", "BENCH"},
+                           ProjectIDs = new List<string> {"001234 Overhead"}
+                       };
         }
 
         private IClock get_clock_fixed_on_date(DateTime today)

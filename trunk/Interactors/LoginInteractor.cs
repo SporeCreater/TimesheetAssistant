@@ -1,26 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Boundaries;
 
 namespace Interactors
 {
-    public class LoginRequest
-    {
-        public string UserName { get; set; }
-        public string Password { get; set; }
-    }
-
-    class LoginResponse
-    {
-        public LoginResponse()
-        {
-            ErrorMessage = string.Empty;
-        }
-
-        public bool WasSuccessful { get; set; }
-        public string ErrorMessage { get; set; }
-        public string CurrentWeek { get; set; }
-    }
-
     public class LoginInteractor
     {
         private readonly ILoginView _view;
@@ -51,7 +34,7 @@ namespace Interactors
 
             if (response.WasSuccessful)
             {
-                _view.SetCurrentWeek(response.CurrentWeek);
+                _view.SetCurrentWeek(response);
             }
             else
             {
@@ -79,7 +62,17 @@ namespace Interactors
             DateTime today = Clock.Now();
             string nextSaturday = today.CalculateNextSaturday().ToShortDateString();
             _page.SelectCurrentWeek(nextSaturday);
-            return new LoginResponse {WasSuccessful = true, CurrentWeek = _page.CurrentWeek};
+            return new LoginResponse
+                       {
+                           WasSuccessful = true, 
+                           CurrentWeek = _page.CurrentWeek, 
+                           WeekDays = _page.WeekDays,
+                           EarningCodes =  _page.EarningCodes,
+                           ContractLines = _page.ContractLines,
+                           ContractNumbers = _page.ContractNumbers,
+                           ActivityIDs = _page.ActivityIDs,
+                           ProjectIDs = _page.ProjectIDs
+                       };
         }
     }
 }

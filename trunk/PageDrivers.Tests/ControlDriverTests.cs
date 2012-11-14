@@ -6,14 +6,14 @@ using WatiN.Core;
 
 namespace PageDrivers.Tests
 {
-    public class TestControlDriver : WatinControlDriver
+    public class ControlDriverForTesting : WatinControlDriver
     {
         public enum VerificationBehaviour { Pass, Fail, CallSuperClass }
 
         public bool WasVerified;
         public VerificationBehaviour VerificationResult = VerificationBehaviour.Pass;
 
-        public TestControlDriver(string id, Element element, PageDriver parent) : base(id, element, parent)
+        public ControlDriverForTesting(string id, Element element, PageDriver parent) : base(id, element, parent)
         {
         }
 
@@ -29,7 +29,7 @@ namespace PageDrivers.Tests
         }
     }
 
-    public  class TestDriverPage : PageDriver
+    public  class DriverPageForTesting : PageDriver
     {
         public ICollection RegisteredControls
         {
@@ -43,16 +43,16 @@ namespace PageDrivers.Tests
         [TestMethod]
         public void control_drivers_have_id()
         {
-            var ctrl = new TestControlDriver("foo", _ie.Element("foo"), new TestDriverPage());
+            var ctrl = new ControlDriverForTesting("foo", _ie.Element("foo"), new DriverPageForTesting());
             ctrl.Id.Should().Be("foo");
         }
 
         [TestMethod]
         public void control_driver_verification_passes_when_element_exists_on_the_page()
         {
-            var ctrl = new TestControlDriver("lBtnLogin", _ie.Element("lBtnLogin"), new TestDriverPage())
+            var ctrl = new ControlDriverForTesting("lBtnLogin", _ie.Element("lBtnLogin"), new DriverPageForTesting())
                            {
-                               VerificationResult = TestControlDriver.VerificationBehaviour.CallSuperClass
+                               VerificationResult = ControlDriverForTesting.VerificationBehaviour.CallSuperClass
                            };
             ctrl.Verify().Should().BeTrue();
         }
@@ -60,9 +60,9 @@ namespace PageDrivers.Tests
         [TestMethod]
         public void control_driver_verification_fails_if_doesnt_exist_in_page()
         {
-            var ctrl = new TestControlDriver("foobar", _ie.Element("foobar"), new TestDriverPage())
+            var ctrl = new ControlDriverForTesting("foobar", _ie.Element("foobar"), new DriverPageForTesting())
                            {
-                               VerificationResult = TestControlDriver.VerificationBehaviour.CallSuperClass
+                               VerificationResult = ControlDriverForTesting.VerificationBehaviour.CallSuperClass
                            };
             ctrl.Verify().Should().BeFalse();
         }
@@ -70,9 +70,9 @@ namespace PageDrivers.Tests
         [TestMethod]
         public void control_drivers_attach_to_parent_page_on_creation()
         {
-            var parent = new TestDriverPage();
+            var parent = new DriverPageForTesting();
 
-            var ctrl = new TestControlDriver("foo", _ie.Element(Find.ById("foo")), parent);
+            var ctrl = new ControlDriverForTesting("foo", _ie.Element(Find.ById("foo")), parent);
 
             parent.RegisteredControls.Should().Contain(ctrl);
         }
@@ -80,11 +80,11 @@ namespace PageDrivers.Tests
         [TestMethod]
         public void page_drivers_verify_all_registered_controls()
         {
-            var parent = new TestDriverPage();
+            var parent = new DriverPageForTesting();
 
-            var c1 = new TestControlDriver("foo", _ie.Element(Find.ById("foo")), parent);
-            var c2 = new TestControlDriver("bar", _ie.Element(Find.ById("bar")), parent);
-            var c3 = new TestControlDriver("baz", _ie.Element(Find.ById("baz")), parent);
+            var c1 = new ControlDriverForTesting("foo", _ie.Element(Find.ById("foo")), parent);
+            var c2 = new ControlDriverForTesting("bar", _ie.Element(Find.ById("bar")), parent);
+            var c3 = new ControlDriverForTesting("baz", _ie.Element(Find.ById("baz")), parent);
 
             parent.Verify();
 
@@ -96,16 +96,16 @@ namespace PageDrivers.Tests
         [TestMethod]
         public void page_verification_returns_ids_controls_that_failed_verification()
         {
-            var parent = new TestDriverPage();
+            var parent = new DriverPageForTesting();
 
-            var c1 = new TestControlDriver("foo", _ie.Element(Find.ById("foo")), parent)
+            var c1 = new ControlDriverForTesting("foo", _ie.Element(Find.ById("foo")), parent)
                          {
-                             VerificationResult = TestControlDriver.VerificationBehaviour.Fail
+                             VerificationResult = ControlDriverForTesting.VerificationBehaviour.Fail
                          };
-            var c2 = new TestControlDriver("bar", _ie.Element(Find.ById("bar")), parent);
-            var c3 = new TestControlDriver("baz", _ie.Element(Find.ById("bar")), parent)
+            var c2 = new ControlDriverForTesting("bar", _ie.Element(Find.ById("bar")), parent);
+            var c3 = new ControlDriverForTesting("baz", _ie.Element(Find.ById("bar")), parent)
                          {
-                             VerificationResult = TestControlDriver.VerificationBehaviour.Fail
+                             VerificationResult = ControlDriverForTesting.VerificationBehaviour.Fail
                          };
             
             parent.Verify().Should().Be("foo baz ");

@@ -55,9 +55,16 @@ namespace TimeSheetAssistant
             MessageBox.Show(errorMessage);
         }
 
-        public void SetCurrentWeek(string currentDate)
+        public void SetCurrentWeek(LoginResponse response)
         {
-            cbWeeks.DataSource = new List<string> { currentDate };
+            cbWeeks.DataSource = new List<string> { response.CurrentWeek };
+            cbDayOfTheWeek.DataSource = response.WeekDays;
+
+            cbEarningsCode.DataSource = response.EarningCodes;
+            cbContractLine.DataSource = response.ContractLines;
+            cbContractNo.DataSource = response.ContractNumbers;
+            cbActivityId.DataSource = response.ActivityIDs;
+            cbProjectId.DataSource = response.ProjectIDs;
         }
     }
 }
