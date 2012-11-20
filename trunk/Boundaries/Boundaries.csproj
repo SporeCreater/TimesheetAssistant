@@ -40,9 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DayEntry.cs" />
     <Compile Include="ILoginPage.cs" />
     <Compile Include="ILoginView.cs" />
+    <Compile Include="ITimeCardPage.cs" />
+    <Compile Include="LoginRequest.cs" />
+    <Compile Include="LoginResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SubmitRequest.cs" />
+    <Compile Include="TimeCard.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

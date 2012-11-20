@@ -62,17 +62,21 @@ namespace Interactors
             DateTime today = Clock.Now();
             string nextSaturday = today.CalculateNextSaturday().ToShortDateString();
             _page.SelectCurrentWeek(nextSaturday);
-            return new LoginResponse
-                       {
-                           WasSuccessful = true, 
-                           CurrentWeek = _page.CurrentWeek, 
-                           WeekDays = _page.WeekDays,
-                           EarningCodes =  _page.EarningCodes,
-                           ContractLines = _page.ContractLines,
-                           ContractNumbers = _page.ContractNumbers,
-                           ActivityIDs = _page.ActivityIDs,
-                           ProjectIDs = _page.ProjectIDs
-                       };
+
+            var timeCard = _page.GetTimeCard();
+
+            return timeCard.IsEmpty()
+                       ? new LoginResponse
+                             {
+                                 WasSuccessful = false,
+                                 ErrorMessage = _page.LastErrorMessage,
+                                 TimeCard = timeCard
+                             }
+                       : new LoginResponse
+                             {
+                                 WasSuccessful = true,
+                                 TimeCard = timeCard
+                             };
         }
     }
 }

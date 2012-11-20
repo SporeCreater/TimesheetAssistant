@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using Boundaries;
@@ -8,7 +7,7 @@ using WatiN.Core.Exceptions;
 
 namespace PageDrivers
 {
-    public class TimeSheetAppDriver : ILoginPage, IDisposable
+    public class TimeSheetAppDriver : ILoginPage, ITimeCardPage, IDisposable
     {
         private readonly IE _ie;
 
@@ -47,97 +46,37 @@ namespace PageDrivers
 
         public string LastErrorMessage { get; private set; }
 
-        public string CurrentWeek
+        public TimeCard GetTimeCard()
         {
-            get 
-            {
-                return PerformProtectedOperation("", () => 
-                {
-                    var p = new TimeCardPageDriver(_ie);
+            return PerformProtectedOperation(new TimeCard(), () =>
+                    {
+                        var p = new TimeCardPageDriver(_ie);
 
-                    return p.WeekEndingList.SelectedValue;
-                });
-            }
+                        return new TimeCard
+                                   {
+                                       CurrentWeek = p.WeekEndingList.SelectedValue,
+                                       WeekDays = p.WeekDateList.AllContents().Cast<string>().Where(s => !s.Contains("Select")).ToList(),
+                                       EarningCodes = p.EarningCodes.AllContents().Cast<string>().ToList(),
+                                       ContractLines = p.ContractLines.AllContents().Cast<string>().ToList(),
+                                       ContractNumbers = p.ContractNumbers.AllContents().Cast<string>().ToList(),
+                                       ActivityIDs = p.ActivityIDs.AllContents().Cast<string>().ToList(),
+                                       ProjectIDs = p.ProjectIDs.AllContents().Cast<string>().ToList()
+                                    };
+                    });
         }
 
-        public List<string> WeekDays
+        public void EnterHoursForDay(string hours, string dayOfWeek, DayEntry entry)
         {
-            get
-            {
-                return PerformProtectedOperation(new List<string>(), () =>
-                {
-                    var p = new TimeCardPageDriver(_ie);
+            var p = new TimeCardPageDriver(_ie);
 
-                    return p.WeekDateList.AllContents().Cast<string>().Where(s => !s.Contains("Select")).ToList();
-                });
-            }
-        }
-
-        public List<string> EarningCodes
-        {
-            get
-            {
-                return PerformProtectedOperation(new List<string>(), () =>
-                {
-                    var p = new TimeCardPageDriver(_ie);
-
-                    return p.EarningCodes.AllContents().Cast<string>().ToList();
-                });
-            }
-        }
-
-        public List<string> ContractLines
-        {
-            get
-            {
-                return PerformProtectedOperation(new List<string>(), () =>
-                {
-                    var p = new TimeCardPageDriver(_ie);
-
-                    return p.ContractLines.AllContents().Cast<string>().ToList();
-                });
-            }
-        }
-
-        public List<string> ContractNumbers
-        {
-            get
-            {
-                return PerformProtectedOperation(new List<string>(), () =>
-                {
-                    var p = new TimeCardPageDriver(_ie);
-
-                    return p.ContractNumbers.AllContents().Cast<string>().ToList();
-                });
-            }
-        }
-
-        public List<string> ActivityIDs
-        {
-            get
-            {
-                return PerformProtectedOperation(new List<string>(), () =>
-                {
-                    var p = new TimeCardPageDriver(_ie);
-
-                    return p.ActivityIDs.AllContents().Cast<string>().ToList();
-                });
-
-            }
-        }
-
-        public List<string> ProjectIDs
-        {
-            get
-            {
-                return PerformProtectedOperation(new List<string>(), () =>
-                {
-                    var p = new TimeCardPageDriver(_ie);
-
-                    return p.ProjectIDs.AllContents().Cast<string>().ToList();
-                });
-
-            }
+            p.Hours.TypeText(hours);
+            p.WeekDateList.Select(dayOfWeek);
+            p.EarningCodes.Select(entry.EarningCode);
+            p.ContractLines.Select(entry.ContractLine);
+            p.ContractNumbers.Select(entry.ContractNumber);
+            p.ActivityIDs.Select(entry.ActivityID);
+            p.ProjectIDs.Select(entry.ProjectID);
+            p.SaveDetailsButton.Click();
         }
 
         public void SelectCurrentWeek(string nextSaturday)

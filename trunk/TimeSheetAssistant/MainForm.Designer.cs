@@ -53,6 +53,7 @@ namespace TimeSheetAssistant
             this.cbEarningsCode = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.cbDayOfTheWeek = new System.Windows.Forms.CheckedListBox();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -255,11 +256,19 @@ namespace TimeSheetAssistant
             this.cbDayOfTheWeek.Size = new System.Drawing.Size(351, 191);
             this.cbDayOfTheWeek.TabIndex = 16;
             // 
+            // progressBar
+            // 
+            this.progressBar.Location = new System.Drawing.Point(15, 616);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(351, 23);
+            this.progressBar.TabIndex = 17;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(380, 606);
+            this.ClientSize = new System.Drawing.Size(380, 651);
+            this.Controls.Add(this.progressBar);
             this.Controls.Add(this.cbDayOfTheWeek);
             this.Controls.Add(this.cbEarningsCode);
             this.Controls.Add(this.label9);
@@ -311,7 +320,8 @@ namespace TimeSheetAssistant
         private System.Windows.Forms.Button btnEnterHours;
         private System.Windows.Forms.ComboBox cbEarningsCode;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.CheckedListBox cbDayOfTheWeek;       
+        private System.Windows.Forms.CheckedListBox cbDayOfTheWeek;
+        private System.Windows.Forms.ProgressBar progressBar;       
     }
 }
 

@@ -11,6 +11,8 @@ namespace PageDrivers
         public WatinSelectList ContractNumbers { get; private set; }
         public WatinSelectList ActivityIDs { get; private set; }
         public WatinSelectList ProjectIDs { get; private set; }
+        public WatinTextField Hours { get; private set; }
+        public WatinLink SaveDetailsButton { get; private set;  }
 
         public TimeCardPageDriver(IE ie)
         {
@@ -21,6 +23,8 @@ namespace PageDrivers
             ContractNumbers = new WatinSelectList(ie, this, "repHourlyTimeCards_ctl00_uclHourlyTime_udfControl_udf2_ddlValue");
             ActivityIDs = new WatinSelectList(ie, this, "repHourlyTimeCards_ctl00_uclHourlyTime_udfControl_udf3_ddlValue");
             ProjectIDs = new WatinSelectList(ie, this, "repHourlyTimeCards_ctl00_uclHourlyTime_udfControl_udf4_ddlValue");
+            Hours = new WatinTextField(ie, this, "repHourlyTimeCards_ctl00_uclHourlyTime_txtHours");
+            SaveDetailsButton = new WatinLink(ie, this, "repHourlyTimeCards_ctl00_uclHourlyTime_lbtnSaveDetail");
         }
 
     }

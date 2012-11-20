@@ -54,7 +54,7 @@ namespace PageDrivers.Tests
 
                 p.SelectCurrentWeek("9/15/2012");
 
-                p.CurrentWeek.Should().Be("9/15/2012");
+                p.GetTimeCard().CurrentWeek.Should().Be("9/15/2012");
             }
         }
 
@@ -67,7 +67,7 @@ namespace PageDrivers.Tests
 
                 p.SelectCurrentWeek("9/99/9999");
 
-                p.CurrentWeek.Should().Be(p.WeekEndings[p.WeekEndings.Count - 1]); 
+                p.GetTimeCard().CurrentWeek.Should().Be(p.WeekEndings[p.WeekEndings.Count - 1]); 
             }
         }
     }

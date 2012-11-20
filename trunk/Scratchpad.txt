@@ -1,10 +1,10 @@
-
 REFACTORINGS:
 ------------
 
 * ILoginPage: needs new name. These are not "page" interfaces, but the boundary interface between the interactor and the "back end"
 * ILoginPage.Login: should take LoginRequest
-* LoginRequest/Response classes: move to separate file
 
-
+ISSUES:
+------
+- PageDriverTests.page_workflow_and_content_verification test fails if the time card for current week has been submitted already
 

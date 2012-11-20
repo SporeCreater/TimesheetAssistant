@@ -35,6 +35,20 @@ namespace PageDrivers
         }
     }
 
+    public class WatinLink : WatinControlDriver
+    {
+        public WatinLink(IE ie, PageDriver parent, string id)
+            : base(id, ie.Link(Find.ById(id)), parent)
+        {
+        }
+
+        public void Click()
+        {
+            _element.Click();
+        }
+    }
+
+
     public class WatinTextField : WatinControlDriver
     {
         public WatinTextField(IE ie, PageDriver parent, string id): base(id, ie.TextField(Find.ById(id)), parent)
